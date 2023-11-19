@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Login from "@mui/icons-material/Login";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
@@ -117,7 +118,15 @@ const Cartcount = styled.div`
   color: white;
 `;
 
-const Header = () => {
+const Header = ({ cartCount, setSearch }) => {
+
+  let timer;
+  const updateSearch = (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      setSearch(e.target.value);
+    }, 500);
+  };
   return (
     <Container>
       <Upperheader>
@@ -136,8 +145,11 @@ const Header = () => {
 
       <Middleheader>
         <MiddleContent>
-          <Logo>.e-comm</Logo>
-          <Search placeholder="Search..."></Search>
+          <Logo>.tecomm</Logo>
+          <Search
+            placeholder="Search..."
+            onChange={(e) => updateSearch(e)}
+          ></Search>
           <Icons className="call">
             <CallOutlined className="callIcon" />
           </Icons>
@@ -145,11 +157,11 @@ const Header = () => {
             <Login />
           </Icons>
           <Icons>
-            <FavoriteBorder />
+            <FavoriteBorder className="heart"/>
           </Icons>
           <Icons className="cart">
             <ShoppingBagOutlined />
-            <Cartcount className="cartIcon">0</Cartcount>
+            <Cartcount className="cartIcon">{cartCount}</Cartcount>
           </Icons>
         </MiddleContent>
       </Middleheader>

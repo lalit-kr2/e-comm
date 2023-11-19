@@ -5,13 +5,14 @@ import Header from "./components/Header";
 import Products from "./components/Products";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [search, setSearch] = useState("");
 
   return (
     <>
-      <Newsletter/>
-      <Header/>
-      <Products/>
+      <Newsletter />
+      <Header cartCount={cartCount} setSearch={setSearch}/>
+      <Products setCartCount={setCartCount} search={search}/>
     </>
   );
 }
