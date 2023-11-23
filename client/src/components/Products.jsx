@@ -80,21 +80,20 @@ const Optionitems = styled.p`
   color: white;
   background: coral;
 
-  &.heart.animate{
+  &.heart.animate {
     animation: ${heartbeat} 0.5s ease-in-out;
     background-color: red;
   }
 `;
 
-
-const Products = ({ setCartCount, search }) => {
+const Products = ({ setCartCount, search, setAnimateHeart }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/getproducts?search=" + search
+          "http://localhost:5000/api/products/getproducts?search=" + search
         );
         setProducts(response.data);
       } catch (error) {
@@ -105,13 +104,29 @@ const Products = ({ setCartCount, search }) => {
     fetchProducts();
   }, [search]);
 
-  const handleAddToWishlist =() => {
-    const heartIcon = document.querySelector(".heart");
-    heartIcon.classList.add('animate');
-    setTimeout(()=>{
-      heartIcon.classList.remove('animate')
-    }, 500)
-  }
+  const handleCart = async (id) => {
+    setCartCount((prev) => prev + 1);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/cart/addtocart/" + id
+      );
+      if (response) {
+        console.log("Data successfully added to cart");
+      } else {
+        console.log("Something went wrong!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    setAnimateHeart(true);
+    setTimeout(() => {
+      setAnimateHeart(false);
+    }, 1000);
+  };
 
   return (
     <Container>
@@ -127,15 +142,13 @@ const Products = ({ setCartCount, search }) => {
               height={"auto"}
             />
             <Options className="options">
-              <Optionitems
-                onClick={() => {
-                  setCartCount((prev) => prev + 1);
-                }}
-              >
+              <Optionitems onClick={() => handleCart(data.id)}>
                 Add to Cart
               </Optionitems>
               <Optionitems>Buy Now</Optionitems>
-              <Optionitems onClick={handleAddToWishlist}>Add to Wishlist</Optionitems>
+              <Optionitems onClick={handleAddToWishlist}>
+                Add to Wishlist
+              </Optionitems>
             </Options>
           </Productimage>
         </Card>

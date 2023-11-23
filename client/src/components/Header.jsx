@@ -1,10 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import styled from "styled-components";
+import { styled, keyframes } from "styled-components";
 import Login from "@mui/icons-material/Login";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import CallOutlined from "@mui/icons-material/CallOutlined";
 import ShoppingBagOutlined from "@mui/icons-material/ShoppingBagOutlined";
+import { Link } from "react-router-dom";
+import Cart from "./Cart";
+// import "../App.css";
 
 const Container = styled.div`
   width: 100%;
@@ -55,6 +58,9 @@ const Middleheader = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px 0px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 `;
 
 const MiddleContent = styled.div`
@@ -84,6 +90,14 @@ const Search = styled.input`
   }
 `;
 
+const faveHeart = keyframes`
+0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -2800px 0;
+  }`;
+
 const Icons = styled.div`
   font-size: "large";
   color: #95768c;
@@ -105,7 +119,22 @@ const Icons = styled.div`
       right: 5px;
     }
   }
+  &.heart {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: url(https://cssanimation.rocks/images/posts/steps/heart.png)
+      no-repeat;
+    background-position: 0 0;
+    cursor: pointer;
+  }
+
+  &.animate-heart {
+    animation: faveHeart 1s steps(28);
+  }
 `;
+
 const Cartcount = styled.div`
   display: flex;
   align-items: center;
@@ -118,8 +147,7 @@ const Cartcount = styled.div`
   color: white;
 `;
 
-const Header = ({ cartCount, setSearch }) => {
-
+const Header = ({ cartCount, setSearch, animateHeart, cart }) => {
   let timer;
   const updateSearch = (e) => {
     clearTimeout(timer);
@@ -127,6 +155,7 @@ const Header = ({ cartCount, setSearch }) => {
       setSearch(e.target.value);
     }, 500);
   };
+
   return (
     <Container>
       <Upperheader>
@@ -134,7 +163,9 @@ const Header = ({ cartCount, setSearch }) => {
         <Upperlinks>
           <List>
             <Listitems>My Account</Listitems>
-            <Listitems>Cart</Listitems>
+            <Listitems>
+              <Link to="/cart">Cart</Link>
+            </Listitems>
             <Listitems>My Wishlist</Listitems>
             <Listitems>Login</Listitems>
           </List>
@@ -145,23 +176,31 @@ const Header = ({ cartCount, setSearch }) => {
 
       <Middleheader>
         <MiddleContent>
-          <Logo>.tecomm</Logo>
+          <Logo><Link to="/">.tecomm</Link></Logo>
           <Search
             placeholder="Search..."
             onChange={(e) => updateSearch(e)}
           ></Search>
-          <Icons className="call">
-            <CallOutlined className="callIcon" />
-          </Icons>
+          {!cart && (
+            <Icons className="call">
+              <CallOutlined className="callIcon" />
+            </Icons>
+          )}
+          {!cart && (
+            <Icons>
+              <div
+                className={animateHeart ? "heart animate-heart" : "heart"}
+              ></div>
+            </Icons>
+          )}
+          {!cart && (
+            <Icons className="cart">
+              <ShoppingBagOutlined />
+              <Cartcount className="cartIcon">{cartCount}</Cartcount>
+            </Icons>
+          )}
           <Icons>
             <Login />
-          </Icons>
-          <Icons>
-            <FavoriteBorder className="heart"/>
-          </Icons>
-          <Icons className="cart">
-            <ShoppingBagOutlined />
-            <Cartcount className="cartIcon">{cartCount}</Cartcount>
           </Icons>
         </MiddleContent>
       </Middleheader>

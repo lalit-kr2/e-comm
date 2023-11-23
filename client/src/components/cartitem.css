@@ -1,0 +1,73 @@
+h1{
+    font-weight: 500;
+    padding-left: 35px;
+    
+}
+.main-container{
+    width: 86%;
+    margin: auto;
+    height: auto;
+    /* border: solid 2px #666; */
+    display: flex;
+    border-bottom: solid 1px #999;
+  
+}
+.inner-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    flex: 1;
+}
+.content{
+    flex: 3;
+}
+.inStock{
+    padding: 2px 5px;
+    border-radius: 5px;
+    text-align: center;
+    width: 50px;
+    border: 1px solid rgb(78, 123, 78);
+    background-color: rgb(170, 233, 170);
+}
+.outOfStock{
+    padding: 2px 5px;
+    border-radius: 5px;
+    text-align: center;
+    width: 90px;
+    border: 1px solid rgb(244, 53, 53);
+    background-color: rgb(237, 154, 154);
+}
+.freeShipping{
+    font-weight: 400;
+    font-size: 12px;
+}
+.option{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.optionItems{
+    font-size: 12px;
+}
+.optionItems span{
+    padding: 0 5px;
+    cursor: pointer;
+}
+.optionItems span:hover{
+    color: dodgerblue;
+}
+.price{
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+.content h2{
+    font-weight: normal;
+    font-size: 30px;
+}
+.totalPrice{
+    text-align: end;
+    padding-right: 400px;
+}
